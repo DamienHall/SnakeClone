@@ -68,7 +68,6 @@ public class Snake {
         }
 
         public BodySegment add() {
-            System.out.println("Adding segment");
             int oppositeDirection = 0;
             if ( direction == UP ) {
                 oppositeDirection = DOWN;
@@ -100,7 +99,6 @@ public class Snake {
     public void eatApple() {
         score += 100;
         body.add( body.get( body.size()-1 ).add() );
-        System.out.println("Eated App, body length: "+body.size());
     }
 
     public void tick() {
