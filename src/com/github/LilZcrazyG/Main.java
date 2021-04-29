@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 public class Main {
 
-    static final int WIN_WIDTH = 520, WIN_HEIGHT = 520, OFFSET = 20, CELLSIZE = 40;
+    static final int WIN_WIDTH = 520, WIN_HEIGHT = 520, OFFSET = 10, CELLSIZE = 20;
     static int fps = 5;
     static Field gameField = new Field( OFFSET, OFFSET, WIN_WIDTH-(2*OFFSET), WIN_WIDTH-(2*OFFSET), CELLSIZE );
     static Snake player = new Snake( gameField.getCell( 10, 10 ));

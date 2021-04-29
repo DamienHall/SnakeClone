@@ -1,5 +1,7 @@
 package com.github.LilZcrazyG;
 
+import com.github.LilZcrazyG.GameEngine.GameEngine;
+import com.github.LilZcrazyG.GameEngine.GameStateManager;
 import com.github.LilZcrazyG.GameEngine.GraphicsEngine;
 import com.github.LilZcrazyG.GameEngine.InputManager;
 
@@ -17,7 +19,24 @@ public class Snake {
 
     // private variables
     private ArrayList<BodySegment> body = new ArrayList<>();
-    private int direction = UP, score = 0;
+    private static int direction = UP, score = 0;
+    private static GameStateManager endGameState = new GameStateManager() {
+
+        @Override
+        public void tick() {
+
+        }
+
+        @Override
+        public void render() {
+            GraphicsEngine.clearScreen();
+            GraphicsEngine.setColor( Color.BLACK );
+            GraphicsEngine.rectangleFilled( 0, 0, 520, 520 );
+            GraphicsEngine.setColor( Color.WHITE );
+            GraphicsEngine.text( 520/2, 520/2, "Score: "+score );
+            GraphicsEngine.show();
+        }
+    };
 
     // body segment class
     public static class BodySegment {
@@ -64,6 +83,8 @@ public class Snake {
             Cell newSegmentCell = segmentCell.getNeighbors()[direction];
             if (newSegmentCell != null) {
                 segmentCell = newSegmentCell;
+            } else {
+                GameEngine.setGameState( endGameState );
             }
         }
 
@@ -116,11 +137,13 @@ public class Snake {
         if ( ( lastKeyPressed == 'd' || lastKeyPressed == 'D' ) && body.get( 0 ).getDirection() != LEFT ) {
             body.get( 0 ).setDirection( Snake.RIGHT );
         }
+        body.get( body.size()-1 ).getCell().setContainsSnake( false );
         for ( int segment = body.size()-1; segment > -1; segment-- ) {
             BodySegment b = body.get( segment );
             if ( !b.getInQueue() ) {
                 b.updatePosition();
                 if ( segment != 0 ) {
+                    b.getCell().setContainsSnake( true );
                     b.setDirection( body.get( segment-1 ).getDirection() );
                 }
             } else {
@@ -179,6 +202,9 @@ public class Snake {
         if ( body.get( 0 ).getCell().getContainsApple() ) {
             eatApple();
             body.get( 0 ).getCell().setContainsApple( false );
+        }
+        if ( body.get( 0 ).getCell().getContainsSnake() ) {
+            GameEngine.setGameState( endGameState );
         }
     }
 

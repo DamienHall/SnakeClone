@@ -79,6 +79,10 @@ public class Field {
             appleX = Utilities.randomInt( 0, rows-1 );
             appleY = Utilities.randomInt( 0, columns-1 );
             eatenApple = false;
+            while ( cells.get( appleX ).get( appleY ).getContainsSnake() ) {
+                appleX = Utilities.randomInt( 0, rows-1 );
+                appleY = Utilities.randomInt( 0, columns-1 );
+            }
             cells.get( appleX ).get( appleY ).setContainsApple( true );
         }
     }

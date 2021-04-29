@@ -58,6 +58,34 @@ public class GameEngine {
         windowEngine.addInputManager( inputManager );
     }
 
+    public static void setGameState( GameStateManager gameStateManager ) {
+        tickTask.cancel();
+        renderTask.cancel();
+        GameEngine.gameStateManager = gameStateManager;
+        tickTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    gameStateManager.tick();
+                } catch ( Exception e ) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        renderTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    gameStateManager.render();
+                } catch ( Exception e ) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        timer.scheduleAtFixedRate( tickTask, 0, tickspeed );
+        timer.scheduleAtFixedRate( renderTask, 0, 1000/120 );
+    }
+
     public static void setTickspeed( long tickspeed ) {
         tickTask.cancel();
         tickTask = new TimerTask() {

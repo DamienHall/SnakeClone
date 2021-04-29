@@ -13,6 +13,7 @@ public class Cell {
     private int x, y, size;
     private Color color;
     private boolean containsApple = false;
+    private boolean containsSnake = false;
 
     public Cell( int x, int y, int size, Color color ) {
         this.x = x;
@@ -46,6 +47,14 @@ public class Cell {
 
     public boolean getContainsApple() {
         return containsApple;
+    }
+
+    public void setContainsSnake( boolean containsSnake ) {
+        this.containsSnake = containsSnake;
+    }
+
+    public boolean getContainsSnake() {
+        return this.containsSnake;
     }
 
     public void tick() {
